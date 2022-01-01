@@ -15,7 +15,7 @@ struct State {
 }
 
 impl State {
-    pub fn new() -> Self {
+    fn new() -> Self {
         Self { map: Map::new() }
     }
 }
@@ -33,5 +33,5 @@ fn main() -> BError {
         .with_fps_cap(FPS_CAP)
         .build()?;
 
-    main_loop(context, State::new());
+    main_loop(context, State::new())
 }
