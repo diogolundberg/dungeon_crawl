@@ -21,9 +21,11 @@ struct State {
 
 impl State {
     fn new() -> Self {
+        let mut rng = RandomNumberGenerator::new();
+        let map_builder = MapBuilder::new(&mut rng);
         Self {
-            map: Map::new(),
-            player: Player::new(Point::new(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2)),
+            map: map_builder.map,
+            player: Player::new(map_builder.player_start),
         }
     }
 }
@@ -31,8 +33,27 @@ impl State {
 impl GameState for State {
     fn tick(&mut self, ctx: &mut BTerm) {
         ctx.cls();
+        if ctx.key == Some(VirtualKeyCode::R) {
+            let mut rng = RandomNumberGenerator::new();
+            let map_builder = MapBuilder::new(&mut rng);
+                
+            self.map = map_builder.map;
+            self.player.position = map_builder.player_start;
+        }
+
+        self.player.update(ctx, &self.map);
+
         self.map.render(ctx);
         self.player.render(ctx);
+
+        ctx.print(
+            0,
+            0,
+            format!(
+                "position {}, {}",
+                self.player.position.x, self.player.position.y
+            ),
+        );
     }
 }
 

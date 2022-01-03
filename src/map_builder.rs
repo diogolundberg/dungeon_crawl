@@ -75,15 +75,15 @@ impl MapBuilder {
         rooms.sort_by(|a, b| a.center().x.cmp(&b.center().x));
 
         for (i, room) in rooms.iter().enumerate().skip(1) {
-            let prev = rooms[i - 1].center();
-            let new = room.center();
+            let origin = rooms[i - 1].center();
+            let target = room.center();
 
             if rng.range(0, 2) == 1 {
-                self.apply_horizontal_tunnel(prev.x, new.x, prev.y);
-                self.apply_vertical_tunnel(prev.y, new.y, new.x);
+                self.apply_horizontal_tunnel(origin.x, target.x, origin.y);
+                self.apply_vertical_tunnel(origin.y, target.y, target.x);
             } else {
-                self.apply_vertical_tunnel(prev.y, new.y, prev.x);
-                self.apply_horizontal_tunnel(prev.x, new.x, new.y);
+                self.apply_vertical_tunnel(origin.y, target.y, origin.x);
+                self.apply_horizontal_tunnel(origin.x, target.x, target.y);
             }
         }
     }
