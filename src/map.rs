@@ -38,6 +38,14 @@ impl Map {
         }
     }
 
+    pub fn try_index(&self, point: Point) -> Option<usize> {
+        if !self.in_bounds(point) {
+            None
+        } else {
+            Some(map_index(point.x, point.y))
+        }
+    }
+
     pub fn in_bounds(&self, point: Point) -> bool {
         point.x >= 0 && point.x < SCREEN_WIDTH && point.y >= 0 && point.y < SCREEN_HEIGHT
     }
